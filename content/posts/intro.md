@@ -3,7 +3,7 @@ title: Introducción
 date: 2019-08-01
 ---
 
-¡Hola! Y bienvenido a este mini-curso de desarrollo de videojuegos.
+¡Hola! Y bienvenido a este curso de desarrollo de videojuegos.
 
 Esta serie de posts estará en focada en desarrolladores que tienen interés en mejorar su conocimiento de Programación Orientada a Objetos (OOP por sus siglas en inglés). Utilizando [TypeScript](https://www.typescriptlang.org) repasaremos conceptos como **Herencia**, **Polimorfismo**, **Composición**, **Interfaces**, entre otros.
 
