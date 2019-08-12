@@ -1,9 +1,17 @@
 module.exports = {
   plugins: [
+    `gatsby-plugin-netlify`,
+    "gatsby-plugin-netlify-cache",
     {
       resolve: `gatsby-theme-blog`,
       options: {
         basePath: "/",
+      },
+    },
+    {
+      resolve: "gatsby-plugin-google-analytics",
+      options: {
+        trackingId: "UA-145472877-1",
       },
     },
   ],
