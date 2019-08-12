@@ -1,6 +1,6 @@
 ---
 title: Setup
-date: 2019-08-10
+date: 2019-08-02
 ---
 
 En este post haremos la instalación del ambiente de trabajo que usaremos en el resto del curso. Como lenguaje de desarrollo estaremos utilizando [TypeScript](https://www.typescriptlang.org), un lenguaje superset de JavaScript que permite el uso de características extras como tipeado de datos e uso de **Interfaces de objetos**.
@@ -34,7 +34,7 @@ Nuestro `package.json` debe verse algo así:
   "main": "index.js",
   "scripts": {
     "build": "parcel build index.html",
-		"develop": "parcel index.html -p 8000"
+    "develop": "parcel index.html -p 8000"
   },
   "keywords": [],
   "author": "",
@@ -54,16 +54,14 @@ Para empezar a trabajar, necesitamos un punto de entrada para Parcel; si revisar
 ```html
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <title>Desarrollo de videojuegos en Typescript</title>
+  <title>Desarrollo de juegos en Typescript</title>
 </head>
 
 <body>
   <h1></h1>
   <script src="./src/index.ts"></script>
 </body>
-
 </html>
 ```
 
