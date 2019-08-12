@@ -2,6 +2,7 @@ module.exports = {
   plugins: [
     `gatsby-plugin-netlify`,
     "gatsby-plugin-netlify-cache",
+    "gatsby-plugin-offline",
     {
       resolve: `gatsby-theme-blog`,
       options: {
@@ -12,6 +13,18 @@ module.exports = {
       resolve: "gatsby-plugin-google-analytics",
       options: {
         trackingId: "UA-145472877-1",
+      },
+    },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Typedgames.dev`,
+        short_name: `Typedgaes`,
+        start_url: `/`,
+        background_color: `#0D0630`,
+        theme_color: `#0D0630`,
+        display: `standalone`,
+        icon: "src/assets/nicrosil.png",
       },
     },
   ],
