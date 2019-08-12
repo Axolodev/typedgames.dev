@@ -26,7 +26,7 @@ export default merge(defaultThemeColors, {
       background: "#0D0630",
       text: "rgba(255, 255, 255, 0.95)",
       primary: "#D33F49",
-      highlight: "#C20114",
+      highlight: "#A20104",
     },
   },
 });
