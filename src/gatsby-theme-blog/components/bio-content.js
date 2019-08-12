@@ -7,7 +7,7 @@ import { Styled } from "theme-ui";
 
 export default () => (
   <Fragment>
-    Blog escrito por Roberto Ruiz. <br />
+    Escrito por Roberto Ruiz. <br />
     <Styled.a
       href="https://twitter.com/robruizr"
       target="_blank"

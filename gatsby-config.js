@@ -3,15 +3,15 @@ module.exports = {
     {
       resolve: `gatsby-theme-blog`,
       options: {
-        basePath: "/blog",
+        basePath: "/",
       },
     },
   ],
   // Customize your site metadata:
   siteMetadata: {
-    title: `Rob devs`,
+    title: `Typedgames`,
     author: `Roberto Ruiz`,
-    description: `Blog de desarrollo web con temas videojuegos, React, entre otros.`,
+    description: `Blog de desarrollo de videojuegos con Typescript`,
     social: [
       {
         name: `twitter`,
