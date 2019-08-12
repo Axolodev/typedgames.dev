@@ -88,7 +88,7 @@ Con esto, estamos obteniendo el encabezado marcado por `h1` de nuestro `index.ht
 Finalmente, y para validar todo lo que hicimos en los pasos anteriores, ejecutaremos el comando `npm run develop` en la raíz del proyecto usando la consola de comando que abrimos previamente. Si hicimos todo correctamente, deberíamos ver un mensaje similar a este en la consola de comandos: 
 
 ```
-Server running at http://localhost:8000 
+Server running at http://localhost:8000
 ```
 
 
