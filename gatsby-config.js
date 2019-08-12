@@ -19,7 +19,7 @@ module.exports = {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `Typedgames.dev`,
-        short_name: `Typedgaes`,
+        short_name: `Typed games`,
         start_url: `/`,
         background_color: `#0D0630`,
         theme_color: `#0D0630`,
