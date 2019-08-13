@@ -1,0 +1,146 @@
+---
+title: Primer dibujo
+date: 2019-08-03
+---
+
+import { CodeWave } from "gatsby-theme-waves"
+
+## Cambiando el contenido del documento
+
+Para empezar a dibujar necesitamos definir un espacio que nos permita hacer esto, algo similar a un lienzo. Para esto, cambiaremos el `h1` que creamos en el post anterior por un elemento `canvas` que nos permitirá dibujar dentro de nuestro documento; el canvas debe tener una altura y un ancho definido, por lo que le asignaremos un espacio de 400 pixeles de ancho por 400 de alto. El `body` de nuestro HTML debería quedar algo así:
+
+```html
+<body>
+  <canvas width="640" height="480"></canvas>
+  <script src="./src/index.ts"></script>
+</body>
+```
+
+Sin embargo, si ejecutamos esto en nuestro navegador nos encontraremos con una pantalla en blanco, lo que dificultará un poco nuestro trabajo. Podemos cambiar el estilo del canvas asignándole un color de fondo que nos permita verlo con más facilidad... pero no soy muy fan de esto porque puede provocar problemas de contraste en un futuro. A mi preferencia, es más fácil si asignamos una sombra al canvas y lo centramos en la página. 
+
+
+
+<CodeWave>
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Desarrollo de videojuegos</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .flex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 99vh;
+      }
+
+      .small-shadow {
+        box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="flex">
+      <canvas
+        id="game-area"
+        width="400"
+        height="400"
+        class="small-shadow"
+      ></canvas>
+    </main>
+    <script src="./src/index.ts"></script>
+  </body>
+</html>
+```
+
+Después de un poco de jugar con propiedades de CSS, mi html quedó así:
+
+
+
+```html 6:19
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Desarrollo de videojuegos</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .flex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 99vh;
+      }
+
+      .small-shadow {
+        box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="flex">
+      <canvas
+        id="game-area"
+        width="400"
+        height="400"
+        class="small-shadow"
+      ></canvas>
+    </main>
+    <script src="./src/index.ts"></script>
+  </body>
+</html>
+```
+
+Los principales cambios se encuentran en el uso de clases para alinear los elementos en el centro y sombrear el canvas para que sea más visible.
+
+```html 26
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Desarrollo de videojuegos</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .flex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 99vh;
+      }
+
+      .small-shadow {
+        box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="flex">
+      <canvas
+        id="game-area"
+        width="400"
+        height="400"
+        class="small-shadow"
+      ></canvas>
+    </main>
+    <script src="./src/index.ts"></script>
+  </body>
+</html>
+```
+
+Además de esto podrán notar que agregué un id al elemento canvas para facilitar su uso una vez que empecemos a trabajar con él en nuestros scripts.
+
+</CodeWave>
+
+> Por cierto, ¿qué opinan del efecto del código? A mí me encanta. Este efecto fue creado por [Pomber](https://github.com/pomber), un muy buen desarrollador de Argentina. Pueden leer más sobre el uso de este efecto en el [repositorio oficial del tema de Gatsby](https://github.com/pomber/gatsby-theme-waves) que utilizo para esto.
