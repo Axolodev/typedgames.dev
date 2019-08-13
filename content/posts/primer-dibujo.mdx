@@ -3,11 +3,17 @@ title: Primer dibujo
 date: 2019-08-03
 ---
 
-import { CodeWave } from "gatsby-theme-waves"
+import { Flex } from "@rebass/grid";
+import { CodeWave } from "gatsby-theme-waves";
 
 ## Cambiando el contenido del documento
 
-Para empezar a dibujar necesitamos definir un espacio que nos permita hacer esto, algo similar a un lienzo. Para esto, cambiaremos el `h1` que creamos en el post anterior por un elemento `canvas` que nos permitirá dibujar dentro de nuestro documento; el canvas debe tener una altura y un ancho definido, por lo que le asignaremos un espacio de 400 pixeles de ancho por 400 de alto. El `body` de nuestro HTML debería quedar algo así:
+Para empezar a dibujar necesitamos definir un espacio que nos permita hacer
+esto, algo similar a un lienzo. Para esto, cambiaremos el `h1` que creamos en el
+post anterior por un elemento `canvas` que nos permitirá dibujar dentro de
+nuestro documento; el canvas debe tener una altura y un ancho definido, por lo
+que le asignaremos un espacio de 400 pixeles de ancho por 400 de alto.
+El `body` de nuestro HTML debería quedar algo así:
 
 ```html
 <body>
@@ -16,9 +22,12 @@ Para empezar a dibujar necesitamos definir un espacio que nos permita hacer esto
 </body>
 ```
 
-Sin embargo, si ejecutamos esto en nuestro navegador nos encontraremos con una pantalla en blanco, lo que dificultará un poco nuestro trabajo. Podemos cambiar el estilo del canvas asignándole un color de fondo que nos permita verlo con más facilidad... pero no soy muy fan de esto porque puede provocar problemas de contraste en un futuro. A mi preferencia, es más fácil si asignamos una sombra al canvas y lo centramos en la página. 
-
-
+Sin embargo, si ejecutamos esto en nuestro navegador nos encontraremos con una
+pantalla en blanco, lo que dificultará un poco nuestro trabajo. Podemos cambiar
+el estilo del canvas asignándole un color de fondo que nos permita verlo con más
+facilidad... pero no soy muy fan de esto porque puede provocar problemas de
+contraste en un futuro. A mi preferencia, es más fácil si asignamos una sombra
+al canvas y lo centramos en la página.
 
 <CodeWave>
 
@@ -61,8 +70,6 @@ Sin embargo, si ejecutamos esto en nuestro navegador nos encontraremos con una p
 
 Después de un poco de jugar con propiedades de CSS, mi html quedó así:
 
-
-
 ```html 6:19
 <!DOCTYPE html>
 <html>
@@ -100,7 +107,8 @@ Después de un poco de jugar con propiedades de CSS, mi html quedó así:
 </html>
 ```
 
-Los principales cambios se encuentran en el uso de clases para alinear los elementos en el centro y sombrear el canvas para que sea más visible.
+Los principales cambios se encuentran en el uso de clases de CSS para alinear
+los elementos en el centro y sombrear el canvas para que sea más visible.
 
 ```html 26
 <!DOCTYPE html>
@@ -139,9 +147,235 @@ Los principales cambios se encuentran en el uso de clases para alinear los eleme
 </html>
 ```
 
-Además de esto podrán notar que agregué un id al elemento canvas para facilitar su uso una vez que empecemos a trabajar con él en nuestros scripts.
+Además de esto podrán notar que agregué un id al elemento canvas para facilitar
+su uso una vez que empecemos a trabajar con él en nuestros scripts.
+
+```html 27,28
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Desarrollo de videojuegos</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .flex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 99vh;
+      }
+
+      .small-shadow {
+        box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="flex">
+      <canvas
+        id="game-area"
+        width="400"
+        height="400"
+        class="small-shadow"
+      ></canvas>
+    </main>
+    <script src="./src/index.ts"></script>
+  </body>
+</html>
+```
+
+Puedes probar jugando con los valores del ancho y alto del canvas para ver cómo
+se modifican sus dimensiones. Esto puede servirte para probar tus juegos en
+varios tipos de pantallas.
 
 </CodeWave>
 
-> Por cierto, ¿qué opinan del efecto del código? A mí me encanta. Este efecto fue creado por [Pomber](https://github.com/pomber), un muy buen desarrollador de Argentina. Pueden leer más sobre el uso de este efecto en el [repositorio oficial del tema de Gatsby](https://github.com/pomber/gatsby-theme-waves) que utilizo para esto.
+> No te preocupes si no entiendes algo de esto . Aunque lo usaremos todo el
+> curso no tiene tanta relevancia para efectos del desarrollo de los ejercicios
+> que haremos.
 
+Con esto, nuestro documento debería verse algo así:
+
+<Flex
+  alignItems="center"
+  justifyContent="center"
+  bg="#FAFAFA"
+  style={{ minHeight: "45vh" }}
+  mb={4}
+>
+  <canvas
+    width="200"
+    height="200"
+    style={{ boxShadow: "0 2px 6px 0 hsla(0, 0%, 0%, 0.2)" }}
+  />
+</Flex>
+
+Nuestro espacio de trabajo está ahora listo para el resto del curso y podemos
+empezar a usarlo.
+
+## Dibujando en canvas
+
+Para empezar a utilizar el canvas en nuestro documento, primero es necesario
+obtener una referencia de este en nuestros scripts. Para esto, haremos uso de
+las herramientas que el mismo documento nos proporciona para acceder a todos sus
+elementos.
+
+<CodeWave>
+
+```ts
+const canvas = document.getElementById("game-area") as HTMLCanvasElement;
+const context: CanvasRenderingContext2D = canvas.getContext("2d");
+```
+
+Abre el archivo `index.ts` que creamos en la entrada anterior, borra su
+contenido y escribe lo que se muestra en la parte de la izquierda.
+
+```ts 1
+const canvas = document.getElementById("game-area") as HTMLCanvasElement;
+const context: CanvasRenderingContext2D = canvas.getContext("2d");
+```
+
+En la primera linea estamos obteniendo el `canvas` del documento e indicando que
+el tipo del objeto es `HTMLCanvasElement`.
+
+```ts 2
+const canvas = document.getElementById("game-area") as HTMLCanvasElement;
+const context: CanvasRenderingContext2D = canvas.getContext("2d");
+```
+
+En la segunda linea le pedimos al canvas un espacio de trabajo en dos
+dimensiones, lo guardamos en una variable, y le decimos a esta variable que su
+tipo es `CanvasRenderingContext2D`.
+
+Si estás usando algún editor de texto con función de autocompletado como
+[VS Code](https://code.visualstudio.com/), definir el tipo te permitirá ver
+todos los datos que tu canvas y tu context tienen disponibles.
+
+</CodeWave>
+<CodeWave>
+
+```ts
+context.rect(100, 100, 200, 200);
+context.fillStyle = "#800080";
+context.fill();
+```
+
+Dibujemos ahora nuestra primera figura. Una vez que hayas copiado el código,
+deberías poder ver un cuadrado color morado en el centro de tu página. Veamos
+qué es lo que estamos haciendo.
+
+```ts 1
+context.rect(100, 100, 200, 200);
+context.fillStyle = "#800080";
+context.fill();
+```
+
+Para empezar, la primera linea le indica al canvas que debe dibujar un
+rectángulo.
+
+```ts 1[13:32]
+context.rect(100, 100, 200, 200);
+context.fillStyle = "#800080";
+context.fill();
+```
+
+Los parámetros de la función indican lo siguiente:
+
+1. La coordenada X para empezar a dibujar
+2. La coordenada Y para empezar a dibujar
+3. El ancho de la figura
+4. La altura de la figura
+
+```ts 2
+context.rect(100, 100, 200, 200);
+context.fillStyle = "#800080";
+context.fill();
+```
+
+La segunda linea indica el color de relleno que queremos utilizar con el
+cuadrado. En este caso, está definido con código hexadecimal. Puedes probar
+cambiando el color para ver distintos resultados.
+
+```ts 3
+context.rect(100, 100, 200, 200);
+context.fillStyle = "#800080";
+context.fill();
+```
+
+Finalmente, la tercera linea le pide al contexto que dibuje la figura que
+acabamos de definir.
+
+```ts 1,2,3
+context.rect(100, 100, 200, 200);
+context.fillStyle = "#800080";
+context.fill();
+```
+
+En general, todos los dibujos y figuras que creamos en canvas usan esta misma
+estructura. Primero se indica la figura que se quiere dibujar junto con sus
+colores, luego se pide al documento que la dibuje. Simple, ¿no?
+
+</CodeWave>
+
+El resultado final debería verse algo así:
+
+<Flex
+  alignItems="center"
+  justifyContent="center"
+  bg="#FAFAFA"
+  style={{ minHeight: "45vh" }}
+  mb={4}
+  data-comment={`
+¡Hola! Si estás viendo este comentario, es posible que notes
+que no estoy usando canvas para dibujar estos elementos. Sí, estoy haciendo un
+poco de trampa para esto ya que uso MDX para el contenido de las 
+publicaciones y no es fácil pasar elementos de canvas. ¡Espero no te importe!`}
+>
+  <Flex
+    alignItems="center"
+    justifyContent="center"
+    style={{
+      boxShadow: "0 2px 6px 0 hsla(0, 0%, 0%, 0.2)",
+      width: 200,
+      height: 200,
+    }}
+  >
+    <Box style={{ width: 100, height: 100, backgroundColor: "#808" }} />
+  </Flex>
+</Flex>
+
+## Otros métodos de dibujo
+
+Puedes probar dibujando otras figuras con instrucciones como
+`context.ellipse()`. Esta función se utiliza de la siguiente forma:
+
+```js
+// Puedes leer más sobre este método en la documentación oficial:
+// https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/ellipse
+context.ellipse(x, y, radioX, radioY, rotación, anguloInicial, anguloFinal);
+
+1. x: coordenada X que indica el centro de la elipse.
+2. y: coordenada Y del centro.
+3. radioX: Radio en X.
+4. radioY: Radio en Y.
+5. rotación: Rotación total de la elipse, expresado en radianes.
+6. anguloInicial: Ángulo del inicio de la elipse, expresado en radianes.
+7. anguloFinal: Ángulo donde termina la elipse, expresado en radianes.
+```
+
+Existen otras funciones aparte de estas, como `lineTo`, `bezierCurveTo`, entre
+otras. Prueba jugando con ellas para formar distintas figuras.
+
+---
+
+En esta publicación nos enfocamos en ver cómo hacer interacciones con el canvas.
+Funciones como rect nos permiten hacer figuras y dibujos sencillos, y, aunque
+son muy útiles, las estaremos usando poco en nuestro curso. Sin embargo, estas
+nos dan la base para poder utilizar otras herramientas más complejas como
+funciones de texto, imágenes, entre otras cosas.
+
+En la siguiente publicación aprenderemos a usar funciones como fillText y
+strokeText para poder escribir en nuestros canvas.
