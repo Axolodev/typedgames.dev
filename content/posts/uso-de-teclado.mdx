@@ -1,0 +1,90 @@
+---
+title: Uso de teclado con canvas
+date: 2019-08-05
+---
+
+import { CodeWave } from "gatsby-theme-waves";
+
+Un videojuego no es interesante si no existe una forma de interactuar con él.
+Puede ser presionar un botón, una combinación de ellos, usar un apuntador,
+joystick, o alguna otra cosa similar, pero el juego necesita interacción para
+resultar entretenido.
+
+## Creando nuestro primer listener
+
+Los elementos de HTML tienen una serie de funciones que les permiten escuchar y
+responder a eventos generados por el usuario u otros elementos del sitio.
+En la siguiente tabla puedes ver algunos de estos ellos:
+
+| Nombre     | Cuándo ocurre                                                                                                     |
+| ---------- | ----------------------------------------------------------------------------------------------------------------- |
+| keydown    | Un botón del teclado fue presionado mientras el elemento está activo. Funciona para todas las teclas.             |
+| keypress   | Igual que keydown, pero funciona solo para teclas que producen caracteres (No funciona para `alt` o `ctrl`, etc.) |
+| keyup      | Un botón del teclado fue liberado mientras el elemento está activo.                                               |
+| mousedown  | Un puntero, como el mouse, hace click (izquierdo o derecho) sobre un elemento.                                    |
+| mouseup    | Un botón de un puntero fue liberado dentro de un elemento                                                         |
+| mousemove  | Un puntero se movió estando adentro de un elemento                                                                |
+| mouseenter | Un puntero entró al área abarcada por un elemento                                                                 |
+
+Antes que nada, para poder utilizar los eventos del teclado es necesario hacer
+una pequeña modificación a nuestro archivo `index.html`:
+
+<CodeWave>
+
+```html
+<canvas id="game-area" width="400" height="400" class="small-shadow"></canvas>
+```
+
+Busca la linea donde nuestro canvas está definido y agrega la propiedad tabindex
+con un valor de 0.
+
+```html
+<canvas
+  id="game-area"
+  width="400"
+  height="400"
+  tabindex="0"
+  class="small-shadow"
+></canvas>
+```
+
+El resultado final debería quedar algo así
+
+</CodeWave>
+
+Después de esto podremos activar eventos de teclado y punteros en nuestro
+canvas.
+
+Volvamos ahora a nuestro archivo `index.ts` y limpiémoslo, dejando solamente
+estas dos lineas:
+
+```ts
+const canvas = document.getElementById("game-area") as HTMLCanvasElement;
+const context: CanvasRenderingContext2D = canvas.getContext("2d");
+```
+
+Creemos una función para ver los valores de nuestros eventos:
+
+```ts
+function listenerGenerico(event) {
+  console.log(event.type);
+}
+```
+
+y agreguemos los listeners correspondientes a nuestro canvas:
+
+```ts
+canvas.addEventListener("keydown", listenerGenerico);
+canvas.addEventListener("keyup", listenerGenerico);
+canvas.addEventListener("keypress", listenerGenerico);
+canvas.addEventListener("mousemove", listenerGenerico);
+canvas.addEventListener("mousedown", listenerGenerico);
+canvas.addEventListener("mouseup", listenerGenerico);
+```
+
+Con esto, nuestro canvas está ahora escuchando todos los eventos que definimos,
+puedes ver los resultados si abres la consola de tu navegador (normalmente con
+la tecla F12) y buscas la pestaña llamada `console`. En mi caso, este fue el
+resultado después de jugar un poco con los eventos:
+
+![Consola de Chrome con algunos eventos listados.](../assets/05-teclado-01.png)
