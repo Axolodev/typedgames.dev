@@ -1,0 +1,77 @@
+---
+title: Uso de texto y estado de context
+date: 2019-08-04
+---
+
+import { CodeWave } from "gatsby-theme-waves";
+
+Para este punto ya sabes cómo hacer uso de canvas para dibujar figuras básicas,
+colorearlas, usar bordes en ellas, y moverlas de un lado a otro, pero, ¿puedes
+imaginarte cómo sería crear texto con figuras así? Tener que definir cada
+instrucción para poder escribir una sola palabra es algo complejo, por lo que
+Canvas nos proporciona una manera sencilla de manejar texto en la pantalla.
+
+## Conociendo fillText y strokeText
+
+La manera en que funcionan estas herramienta es muy similar a lo que hicimos en
+el ejercicio pasado. Para comenzar, es necesario definir la font que queremos
+utilizar, esto se hace por medio de `context.font` de la siguiente manera:
+
+```js
+context.font = "40px serif";
+```
+
+Para facilitar el manejo individual de textos, `font` utiliza la misma [sintaxis
+de definición de fuentes](https://developer.mozilla.org/en-US/docs/Web/CSS/font)
+que CSS. En este caso, estamos definiendo que el tamaño a utilizar será de 40px
+y que se utilizará la variante serif de las fuentes del usuario.
+
+Después de haber definido la font solamente es necesario utilizar la función
+`fillText` para que el texto se muestre en el canvas. Se usa de esta forma:
+
+```js
+context.fillText(texto, puntoX, puntoY);
+// Ejemplo:
+// context.fillText("¡Hola, mundo!", 50, 50);
+```
+
+El ejemplo completo se vería algo así:
+
+```jsx
+context.font = "40px serif";
+context.fillText("¡Hola, mundo!", 50, 50);
+```
+
+Si estás usando el código del ejercicio anterior tal vez notes que el color de
+la font es el mismo que el del cuadrado que dibujamos previamente... ¿A qué se
+debe esto? Y más importante, ¿Cómo lo arreglamos?
+
+## Estado del context
+
+Para facilitar el manejo de figuras, colores y elementos, Context guarda un
+estado interno que incluye color, tamaño, grosor, fuentes, entre otras cosas,
+de los elementos que queremos dibujar. De hecho, si experimentaste con el código
+del ejercicio previo, puede que hayas notado que al mover la instrucción `fill`
+antes de definir el color y la figura el canvas queda completamente en blanco.
+Esto se debe a que canvas espera que estos valores estén definidos una vez que
+solicitemos que la figura se rellene.
+
+Del mismo modo, si queremos mostrar texto en él, es necesario definir el estado
+completo del texto antes de pedir que se dibuje:
+
+```
+// Primero definimos la font
+context.font = "40px sans-serif";
+// Luego definimos el color
+context.fillStyle = "darkRed";
+// Finalmente pedimos al context que escriba el texto
+context.fillText("¡Hola, mundo!", 50, 50);
+
+// Nota: el orden de fillStyle y font no importa.
+// Puedes poner cualquiera de las dos primero.
+```
+
+Con esto, deberíamos tener un resultado similar a este:
+![Canvas con mensaje "¡Hola, mundo!"](/content/assets/04-intro-01.png)
+
+### Guardando y recuperando el estado
