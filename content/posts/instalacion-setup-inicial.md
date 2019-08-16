@@ -1,5 +1,5 @@
 ---
-title: Setup
+title: Instalación y setup inicial
 date: 2019-08-02
 ---
 

@@ -59,7 +59,7 @@ solicitemos que la figura se rellene.
 Del mismo modo, si queremos mostrar texto en él, es necesario definir el estado
 completo del texto antes de pedir que se dibuje:
 
-```
+```js
 // Primero definimos la font
 context.font = "40px sans-serif";
 // Luego definimos el color
@@ -73,7 +73,7 @@ context.fillText("¡Hola, mundo!", 50, 50);
 
 Con esto, deberíamos tener un resultado similar a este:
 
-![Canvas con mensaje "¡Hola, mundo!"](../assets/04-intro-01.png)
+![Canvas con mensaje "¡Hola, mundo!"](../assets/04-texto-01.png)
 
 ¡Perfecto! Nuestro texto se ve muy bien.
 
@@ -168,7 +168,7 @@ function dibujaTexto(texto, x, y) {
 Volvamos a nuestra función dibujaTexto y agreguemos las funciones que acabamos
 de conocer.
 
-```jsx
+```js
 function dibujaTexto(texto, x, y) {
   context.save();
   context.font = "40px sans-serif";
@@ -181,7 +181,7 @@ function dibujaTexto(texto, x, y) {
 Esto arreglará los problemas de estado que nuestro canvas pueda presentar, así
 se respetarán los colores y las formas que definamos dentro de nuestro espacio.
 
-```jsx
+```js
 context.rect(100, 100, 200, 200);
 context.fillStyle = "darkblue";
 dibujaTexto("¡Hola, mundo", 50, 50);
@@ -193,7 +193,7 @@ Ahora podemos cambiar de lugar la función de llenado del cuadrado sin problemas
 
 Puede estar antes, en medio...
 
-```jsx
+```js
 context.rect(100, 100, 200, 200);
 context.fillStyle = "darkblue";
 dibujaTexto("¡Hola, mundo", 50, 50);
