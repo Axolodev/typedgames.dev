@@ -18,6 +18,8 @@
     "gatsby-plugin-netlify": "^2.1.4",
     "gatsby-plugin-netlify-cache": "^1.2.0",
     "gatsby-plugin-offline": "^2.2.5",
+    "gatsby-plugin-sharp": "^2.2.11",
+    "gatsby-plugin-typescript": "^2.1.2",
     "gatsby-theme-blog": "^1.0.2",
     "gatsby-theme-waves": "0.0.5",
     "react": "^16.8.6",
