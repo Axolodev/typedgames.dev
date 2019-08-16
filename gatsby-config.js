@@ -3,13 +3,12 @@ module.exports = {
     `gatsby-plugin-netlify`,
     "gatsby-plugin-netlify-cache",
     "gatsby-plugin-offline",
+    `gatsby-plugin-sharp`,
     `gatsby-plugin-typescript`,
     {
       resolve: `gatsby-theme-blog`,
       options: {
         basePath: "/",
-        contentPath: "src/content/posts",
-        assetsPath: "src/content/assets",
       },
     },
     {
