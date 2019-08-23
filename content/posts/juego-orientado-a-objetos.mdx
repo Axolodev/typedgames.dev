@@ -1,0 +1,75 @@
+---
+title: Desarrollo de juegos orientado a objetos
+date: 2019-08-16
+---
+
+## Iniciando en desarrollo orientado a objetos
+
+Empecemos creando una clase que se encargará de hacer la administración de
+nuestro juego. Como tal vez sepas, a los programas utilizados para desarrollo de
+videojuegos se les conoce como Game engines o motores de juegos, por lo que
+nombraré `Engine` a mi clase inicial. Esta clase se encargará de la
+administración y organización general del código del juego, y la usaremos por el
+resto del curso. De momento, puedes borrar o comentar todo lo que existe en el
+archivo `index.ts` excepto por lo siguiente:
+
+```ts
+const canvas = document.getElementById("game-area") as HTMLCanvasElement;
+const context: CanvasRenderingContext2D = canvas.getContext("2d");
+```
+
+Con esto, tenemos un proyecto "limpio" con solo lo básico para iniciar nuestro
+desarrollo y podemos empezar a organizar mejor nuestro código.
+
+Crea un archivo `Engine.ts` donde escribiremos toda la funcionalidad de nuestra
+clase. De momento, esta clase solo no hará mucho, solamente tendrá tres
+funciones: `constructor`, `start` y `die`
+
+```ts
+class Engine {
+  constructor() {}
+  start() {}
+  die() {}
+}
+
+export default Engine;
+```
+
+### La clase GameObject
+
+Nuestro juego va a contener una serie de objetos, algunos con los que se puede
+interactuar, otros con los que no, pero casi todos estarán relacionados en un
+sentido: se van a mostrar en pantalla. Crearemos una clase llamada GameObject
+de la que todas estas clases podrán heredar para mostarse en la pantalla.
+Para esto debes creas un archivo `GameObject.ts` con el siguiente contenido:
+
+```ts
+// La clase es abstracta porque no puede ser utilizada por si sola
+abstract class GameObject {
+  // Utilizaremos el context para que todos los elementos se dibujen dentro
+  // de él
+  static context: CanvasRenderingContext2D;
+  // Coordenadas donde se dibujará el elemento
+
+  protected readonly debugMode = true;
+
+  protected xCoord: number;
+  protected yCoord: number;
+
+  // Función que se encargará de mostrar el elemento en la pantalla
+  public abstract render(): void;
+
+  // Funciones que nos ayudarán en algunos aspectos del juego en el futuro.
+  static getCanvasWidth() {
+    return GameObject.context.canvas.width;
+  }
+
+  static getCanvasHeight() {
+    return GameObject.context.canvas.height;
+  }
+}
+
+export default GameObject;
+
+export default GameObject;
+```

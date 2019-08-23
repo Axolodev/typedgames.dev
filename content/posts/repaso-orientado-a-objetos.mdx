@@ -1,0 +1,236 @@
+---
+title: Repaso de Programación Orientada a Objetos
+date: 2019-08-15
+---
+
+A la fecha tenemos casi todos los conocimientos necesarios para crear un juego
+básico, ya que podemos desplazar elementos con la pantalla usando listeners,
+reproducir sonidos y utilizar imágenes u objetos externos al juego. Sin embargo,
+nuestro código está hecho un pequeño desastre, por lo que en las siguientes
+publicaciones nos enfocaremos en hacer todo desarrollo en este paradigma.
+
+Demos entonces un pequeño repaso a algunos conceptos importantes de POO:
+
+> Si ya conoces todos los conceptos de programación orientada a objetos puedes
+> saltar a la siguiente publicación.
+
+### Clases
+
+Una clase de Programación Orientada a Objetos se refiere a un "boceto" de un
+objeto real o imaginario y contiene todas las propiedades con las que este
+objeto se define como tal. Un ejemplo es la clase perro que podría definirse de
+una manera similar a esto:
+
+```ts
+class Dog {
+  legs: number = 4;
+  color: string = "";
+
+  talk() {
+    console.log("Woof!");
+  }
+}
+```
+
+### Objetos
+
+Un Objeto se refiere a un elemento creado a partir de una clase. Contiene todas
+las propiedades de la clase con la que fue creada y puede cambiarlas según sea
+necesario. Además, tiene la posibilidad de llamar todas las funciones creadas
+por la clase. Ejemplo:
+
+```ts
+const snoopy = new Dog();
+
+snoopy.color = "white";
+snoopy.talk();
+```
+
+### Constructor
+
+Es un método especial que puede definir cómo se crea un objeto según una serie
+de valores que recibe. Ejemplo:
+
+```ts
+class Dog {
+  legs: number = 4;
+  color: string = "";
+
+  constructor(color) {
+    this.color = color;
+  }
+
+  talk(): void {
+    console.log("Woof!");
+  }
+}
+```
+
+### Herencia
+
+Mecanismo de orientada a objetos que permite que una clase reutilice las
+propiedades de otra. Ejemplo:
+
+```ts
+class Dog {
+  name: string = "";
+
+  talk(): void {
+    console.log(`Woof! My name is ${this.name}`);
+  }
+}
+
+class GoldenRetriever extends Dog {
+  retrieve(): void {
+    console.log("Here's an egg!");
+  }
+}
+
+const myDog = new GoldenRetriever();
+
+myDog.name = "Waldo";
+myDog.talk(); // Woof! My name is Waldo!
+myDog.retrieve(); // Here's an egg!
+```
+
+### Polimorfismo
+
+Mecanismo de POO que permite que una clase padre tome la forma de cualquiera de
+sus clases hijas. USando el mismo ejemplo que la sección pasada:
+
+```ts
+class BlueHeeler extends Dog {
+  jump(): void {
+    console.log("I can jump!");
+  }
+}
+
+const myDogs: Dog[];
+const waldo = new GoldenRetriever();
+const benji = new BlueHeeler();
+waldo.name = "Waldo";
+benji.name = "Benji";
+myDogs.push(waldo);
+myDogs.push(benji);
+
+myDogs.forEach(dog => dog.talk());
+// Woof! My name is Waldo
+// Woof! My name is Benji
+```
+
+### Clase abstracta
+
+Clase que no tiene forma de un objeto en específico, pero puede ser utilizada
+para representar formas similares en que varios objetos actúan. Ejemplo:
+
+```ts
+abstract class Animal {
+  legs: number;
+
+  public abstract talk(): void;
+}
+```
+
+Con esto, toda clase hija que herede de la clase `Animal` tendrá que crear su
+propia implementación de la función `talk`. Ejemplo:
+
+```ts
+class Cat extends Animal {
+  legs: number = 4;
+
+  // Si no incluimos la definición de esta función, Typescript nos mostrará un
+  // error en la pantalla
+  talk(): void {
+    console.log("Meow.");
+  }
+}
+```
+
+### Encapsulación
+
+Mecanismo de los lenguajes orientados a objetos que permite dar o restringir
+acceso a las propiedades o componentes de una clase. Los niveles de
+encapsulación pueden variar entre lenguajes. Para Typescript, existen estos:
+
+- Privado (_private_): Solo puede ser accesado dentro de la implementación de la
+  clase.
+- Protegido (_protected_): Puede ser accesado por la clase que lo tiene y por
+  sus hijos.
+- Público (_public_): Puede ser accesado en cualquier lugar, por cualquier
+  instancia de la clase.
+
+Ejemplo:
+
+```ts
+class Bird {
+  public talk(): void {
+    console.log("Chirp!");
+    this.fly(); // Permitido, está dentro de la clase
+    this.eat(); // Permitido, está dentro de la clase
+  }
+
+  protected eat() {
+    console.log("Yummy!");
+  }
+
+  private fly(): void {
+    console.log("I can fly very high, but it's a secret!");
+  }
+}
+
+const woodstock = new Bird();
+
+// permitido
+woodstock.talk();
+
+// prohibido
+woodstock.eat();
+woodstock.fly();
+```
+
+### Valores estáticos
+
+Valor compartido por todas las instancias de una clase, y por la clase misma.
+Puede ser accesado sin crear una instancia. Ejemplo:
+
+```ts
+class Player {
+  static playing: boolean = false;
+
+  static play() {
+    console.log("I play, play, play!");
+  }
+}
+
+const me = new Player();
+
+// válido
+Player.play();
+me.play();
+
+console.log(Player.playing); // false
+
+me.playing = true;
+
+console.log(Player.playing); // true
+```
+
+### Composición
+
+Mecanismo de programación orientada a objetos que permite que un objeto forme
+parte de otro.
+
+```ts
+class Person {
+  dog: Dog = null;
+}
+
+const roberto = new Person();
+roberto.dog = new GoldenRetriever();
+```
+
+---
+
+Y listo. Estos son algunos conceptos básicos de programacion orientada a objetos
+que estaremos utilizando constantemente durante nuestro desarrollo. Ahora,
+empecemos a mover nuestro trabajo a POO para crear nuestro motor de juegos.

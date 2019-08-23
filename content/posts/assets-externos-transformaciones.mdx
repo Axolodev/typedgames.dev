@@ -84,6 +84,19 @@ O tan delgado como queramos:
 
 ![Mario muy delgado, muy alto](../assets/06-mario-03.png)
 
+Para hacerlo chico, solo es necesario cambiar el ancho y alto final a las
+dimensiones que queremos. Esto se hace del siguiente modo:
+
+```ts
+context.drawImage(image, 200, 50, 55, 80);
+```
+
+Con esto, estoy dibujando la imagen guardada en la variable `image`, en las
+coordenadas (200, 50), y haciendo que tenga un ancho final de 55 pixeles y una
+altura de 80 pixeles. Mi resultado final es este:
+
+![Mario, posicionado del lado izquierdo de la pantalla](../assets/06-mario-04.png)
+
 > Existe otra variante que sirve para utilizar sub-secciones de una imagen.
 > Hablaremos de ella más tarde, pero puedes leer más en la
 > [Documentación oficial de drawImage](https://developer.mozilla.org/es/docs/Web/API/CanvasRenderingContext2D/drawImage)
@@ -96,8 +109,94 @@ tamaño, y otras cosas de este.
 
 ## Transformaciones de contexto
 
+Imaginemos que estamos desarrollando un juego de plataformas similar a Mario
+Bros. Nuestro personaje salta, corre, se agacha, aplasta enemigos, todo
+perfecto. Sin embargo, existe un pequeño problema: ¡no puede voltear a la
+izquierda! Tal vez puede caminar hacia ese lado, pero parececiera que camina
+hacia atrás. ¿Cómo podemos arreglar esto?
+
+Para este tipo de casos, los contextos en 2d de HTML permiten hacer manipulación
+de coordenadas, escala, ancho, alto, entre otras cosas, todo con facilidad.
+Suponiendo que quisieramos cambiar la coordenadas del personaje usando estas
+funciones, lo haríamos de la siguiente forma:
+
+```ts
+// No olvides guardar y recuperar el estado del canvas, ¡es muy impotante!
+context.save();
+// Movemos el contexto a la izquierda, para que se dibujen ahí los elementos
+context.translate(-200, 20);
+context.drawImage(image, 200, 50, 55, 80);
+context.restore();
+```
+
+Con esto, la imagen se posicionará 200 pixeles a la izquierda y 20 arriba de
+donde le indique que debe dibujarse.
+
+De una forma similar, puedo hacer que la imagen se voltee utilizando la función
+`scale` y asignando una escala de -1:
+
+```ts
+context.save();
+context.translate(-200, 20);
+context.scale(-1, 1);
+context.drawImage(image, 200, 50, 55, 80);
+context.restore();
+```
+
+Pero... ¿qué pasó? ¡El personaje desapareció del canvas!
+
+Esto ocurre porque estamos haciendo un doble desplazamiento del personaje,
+primero con `translate`, luego con `drawImage`. Para arreglar esto, solo es
+necesario cambiar las coordenadas de modo que solo hagamos el cambio una sola
+vez:
+
+```ts
+context.save();
+context.translate(200, 20);
+context.scale(-1, 1);
+context.drawImage(image, 0, 0, 55, 80);
+context.restore();
+```
+
+Y listo, nuestro personaje está volteando a la izquierda, pero hay otro
+problema, su posición cambió. Esto se debe a que ahora el eje de dibujo está
+moviéndose junto con el personaje, en vez de que su origen esté en la parte
+superior izquierda, se encuentra en la parte superior derecha. Podemos
+arreglarlo almacenando la dirección en una variable y agregando el ancho de la
+imagen cuando el personaje voltea a la izquierda, de modo que la posición no se
+vea afectada:
+
+```ts
+// Todo en una función, para mejorar el orden del código
+function drawCharacter() {
+  // Almacenamos la dirección del personaje, 1 es a la derecha, -1 a la izquierda
+  const direction = 1;
+  const characterWidth = 55;
+  let currentX = 200;
+
+  // Si el personaje está volteando a la izquierda, es necesario restaurar la
+  // posición del dibujo
+  if (direction === -1) {
+    // restauramos la posición del personaje
+    currentX = currentX + characterWidth;
+  }
+
+  context.save();
+  context.translate(currentX, 20);
+  context.scale(direction, 1);
+  context.drawImage(image, 0, 0, characterWidth, 80);
+  context.restore();
+}
+
+// Hacer que el personaje se dibuje
+drawCharacter();
+```
+
+Y listo, con esto el personaje cambiará su posición cuando modifiquemos la
+dirección en este está volteando.
+
 Aunque ya podemos utilizar imágenes, hay algo más que le falta a nuestro juego
-para ser divertido... ¡Ah, claro! Le falta música y sonido. Vemaos ahora cómo
+para ser divertido... ¡Ah, claro! Le falta música y sonido. Veamos ahora cómo
 usar este tipo de recursos.
 
 ## Importando y usando nuestro primer sonido
